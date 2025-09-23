@@ -35,7 +35,7 @@ namespace JoyconLib
 
         #region Local Variables
 
-        private Joycon joycon;
+       public Joycon joycon;
 
         #endregion
 

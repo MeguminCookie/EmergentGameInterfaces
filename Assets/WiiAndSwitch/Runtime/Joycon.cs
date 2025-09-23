@@ -469,7 +469,6 @@ namespace JoyconLib
         }
 
         #endregion
-
         #region Local Functions
 
         private int ReceiveRaw()
