@@ -25,7 +25,7 @@ public class LanceController : MonoBehaviour
     private void LanceRotationR()
     {
         joyconRotation= joyconRight.joycon.GetOrientation();
-        lanceObject.transform.rotation = joyconRotation;
+        lanceObject.transform.localRotation = joyconRotation;
     }
 
     
