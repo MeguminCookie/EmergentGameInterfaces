@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Target
   - Lance
+  - GameManager
   layers:
   - Default
   - TransparentFX
