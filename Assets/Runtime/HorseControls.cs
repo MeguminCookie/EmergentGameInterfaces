@@ -16,7 +16,7 @@ public class HorseControls : MonoBehaviour
 
 
     private SplineAnimate splineAnimate;
-
+    private GameManager gameManager;
 
     private bool isAccelerating;
 
@@ -24,7 +24,7 @@ public class HorseControls : MonoBehaviour
     void Start()
     {
         splineAnimate = GetComponent<SplineAnimate>();
-
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         //Speed horse up till base speed
         currentSpeed = 0;
         splineAnimate.MaxSpeed = 0;
@@ -37,7 +37,7 @@ public class HorseControls : MonoBehaviour
     void Update()
     {
         HorseSpeed();
-
+        gameManager.horseSpeed = currentSpeed;
         timeSinceLastSpedUp += Time.deltaTime;
         if(timeSinceLastSpedUp > timeTillSpeedDown && currentSpeed > baseSpeed)
         {

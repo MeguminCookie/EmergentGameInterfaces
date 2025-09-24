@@ -1,8 +1,9 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    
+    [SerializeField] private GameObject targetObject;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,9 +19,10 @@ public class Target : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Lance"))
+        if (other.gameObject.CompareTag("Lance"))
         {
-
+            Debug.Log("Hit Target");
+            Destroy(targetObject);
         }
     }
 }
