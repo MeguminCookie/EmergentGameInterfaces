@@ -5,13 +5,17 @@ using UnityEngine.Splines;
 
 public class HorseControls : MonoBehaviour
 {
-
+    [Header("Horse Movement Variables")]
     public JoyconDemo joyconLeft;
     public float baseSpeed;
     private float currentSpeed;
     public float speedUpAmount;
     public float timeTillSpeedDown;
+    public float accelerationRate;
+    private float timeSinceLastSpedUp;
 
+
+    private SplineAnimate splineAnimate;
 
 
     private bool isAccelerating;
@@ -19,6 +23,13 @@ public class HorseControls : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        splineAnimate = GetComponent<SplineAnimate>();
+
+        //Speed horse up till base speed
+        currentSpeed = 0;
+        splineAnimate.MaxSpeed = 0;
+        StartCoroutine(StartOfGame());
+
 
     }
 
@@ -26,7 +37,16 @@ public class HorseControls : MonoBehaviour
     void Update()
     {
         HorseSpeed();
-        this.gameObject.transform.position = new Vector3(transform.position.x,transform.position.y,transform.position.z + currentSpeed * Time.deltaTime);
+
+        timeSinceLastSpedUp += Time.deltaTime;
+        if(timeSinceLastSpedUp > timeTillSpeedDown && currentSpeed > baseSpeed)
+        {
+            Debug.Log("Speeding down");
+            float prevProgress = splineAnimate.NormalizedTime;
+            currentSpeed -= (accelerationRate *0.25f) * Time.deltaTime;
+            splineAnimate.MaxSpeed = currentSpeed;
+            splineAnimate.NormalizedTime = prevProgress;
+        }
     }
 
     private void HorseSpeed()
@@ -35,6 +55,7 @@ public class HorseControls : MonoBehaviour
         {
             isAccelerating = true;
             Debug.Log("Speed up");
+            timeSinceLastSpedUp = 0;
             Debug.Log(joyconLeft.joycon.GetAccelerationWorldWithoutGravity().y);
             StartCoroutine(Accelaration());
         }
@@ -42,15 +63,33 @@ public class HorseControls : MonoBehaviour
     
     private IEnumerator Accelaration()
     {
-        
+       
         float speedGoal = currentSpeed + speedUpAmount;
-        while (currentSpeed > speedGoal)
+        while (currentSpeed < speedGoal)
         {
-            currentSpeed += Time.deltaTime / 0.05f;
+            //Normalize the speed change with the current position of player ( if we don't do this, the player will teleport )
+            float prevProgress = splineAnimate.NormalizedTime;
+            currentSpeed += accelerationRate * Time.deltaTime;
+            splineAnimate.MaxSpeed = currentSpeed;
+            splineAnimate.NormalizedTime = prevProgress;
+            yield return null;
         }
+        Debug.Log("Current Speed: " + currentSpeed);
         yield return new WaitForSeconds(0.5f);
         isAccelerating = false;
     }
 
+    private IEnumerator StartOfGame()
+    {
+        while (splineAnimate.MaxSpeed < baseSpeed)
+        {
+            float prevProgress = splineAnimate.NormalizedTime;
+            currentSpeed += accelerationRate * Time.deltaTime;
+            splineAnimate.MaxSpeed = currentSpeed;
+            splineAnimate.NormalizedTime = prevProgress;
+            yield return null;
+        }
+    }
+   
 
 }
