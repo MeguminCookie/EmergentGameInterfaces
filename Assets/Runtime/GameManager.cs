@@ -3,11 +3,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Ramping Difficulty Numbers")]
+    public int speedRequirement;
+    public float speedRequirmentMuliplier;
+    public float timeTillDifficultyRamp;
 
     [Header("UI Stuff")]
     [SerializeField] private TextMeshProUGUI speedText;
 
-    [Header("Horse Details")]
+    private float timeSpanned;
     public float horseSpeed = 2;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,5 +23,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         speedText.text = string.Format("{0:#.00} kph",horseSpeed);
+
+        timeSpanned += Time.deltaTime;
+        if(timeSpanned > timeTillDifficultyRamp)
+        {
+            timeSpanned = 0;
+            speedRequirement = (int)(speedRequirement * speedRequirmentMuliplier);
+        }
     }
 }

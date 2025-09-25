@@ -8,7 +8,7 @@ public class HorseControls : MonoBehaviour
     [Header("Horse Movement Variables")]
     public JoyconDemo joyconLeft;
     public float baseSpeed;
-    private float currentSpeed;
+    public float currentSpeed;
     public float speedUpAmount;
     public float timeTillSpeedDown;
     public float accelerationRate;
@@ -75,8 +75,8 @@ public class HorseControls : MonoBehaviour
             yield return null;
         }
         Debug.Log("Current Speed: " + currentSpeed);
-        yield return new WaitForSeconds(0.5f);
         isAccelerating = false;
+        yield return null;
     }
 
     private IEnumerator StartOfGame()
@@ -89,6 +89,27 @@ public class HorseControls : MonoBehaviour
             splineAnimate.NormalizedTime = prevProgress;
             yield return null;
         }
+    }
+
+    public void SlowDown(float speed)
+    {
+        StartCoroutine(SlowingDown(speed));
+    }
+
+    private IEnumerator SlowingDown(float speed)
+    {
+        float speedGoal = currentSpeed - speed;
+        while (currentSpeed > speedGoal && isAccelerating == false)
+        {
+            //Normalize the speed change with the current position of player ( if we don't do this, the player will teleport )
+            float prevProgress = splineAnimate.NormalizedTime;
+            currentSpeed -= accelerationRate * 2 * Time.deltaTime;
+            splineAnimate.MaxSpeed = currentSpeed;
+            splineAnimate.NormalizedTime = prevProgress;
+            yield return null;
+        }
+        Debug.Log("Current Speed: " + currentSpeed);
+        yield return null;
     }
    
 
