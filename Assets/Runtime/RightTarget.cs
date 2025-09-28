@@ -1,10 +1,10 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Dummy : MonoBehaviour
+public class RightTarget : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public int slowDownAmount;
     public static event Action<int> OnTargetHit;
     void Start()
     {
@@ -17,18 +17,13 @@ public class Dummy : MonoBehaviour
         
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Lance"))
         {
-            Debug.Log("Hit dummy");
+            Debug.Log("Hit Target");
             OnTargetHit?.Invoke(100);
-            Destroy(this.gameObject);
-        }
-        else if (other.gameObject.CompareTag("Horse"))
-        {
-            Debug.Log("Collided with dummy");
-            other.GetComponentInParent<HorseControls>().SlowDown(slowDownAmount);
             Destroy(this.gameObject);
         }
     }
