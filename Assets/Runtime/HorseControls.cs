@@ -39,7 +39,7 @@ public class HorseControls : MonoBehaviour
         HorseSpeed();
         gameManager.horseSpeed = currentSpeed;
         timeSinceLastSpedUp += Time.deltaTime;
-        if(timeSinceLastSpedUp > timeTillSpeedDown && currentSpeed > baseSpeed)
+        if(timeSinceLastSpedUp > timeTillSpeedDown && currentSpeed > baseSpeed + 1.5f)
         {
             Debug.Log("Speeding down");
             float prevProgress = splineAnimate.NormalizedTime;
@@ -51,7 +51,7 @@ public class HorseControls : MonoBehaviour
 
     private void HorseSpeed()
     {
-        if (joyconLeft.joycon.GetAccelerationWorldWithoutGravity().y > 6.5f && isAccelerating == false)
+        if (joyconLeft.joycon.GetAccelerationWorldWithoutGravity().y > 3.5f && isAccelerating == false)
         {
             isAccelerating = true;
             Debug.Log("Speed up");
