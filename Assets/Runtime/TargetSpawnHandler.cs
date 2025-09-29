@@ -24,7 +24,12 @@ public class TargetSpawnHandler : MonoBehaviour
     public float yBarrierRotation;
     public Transform spawnBarrierLocation;
 
+    [Header("Spawn Settings")]
+    public bool isFirstSpawn;
+    public bool isOnlyTargets;
+    public bool isOnlyDummies;
 
+    
     [Header("Prefabs")]
     [SerializeField] private GameObject[] spawnPrefabsHigh;
     [SerializeField] private GameObject[] spawnPrefabsGround;
@@ -81,27 +86,47 @@ public class TargetSpawnHandler : MonoBehaviour
                 Vector3 spawnLocation = lastSpawnedLocation + direction * randomDistance;
                 lastSpawnedLocation = spawnLocation;
             }
-            
 
-            if(randomHighOrLow == 1)
+
+            if (isFirstSpawn)
             {
-                //High Spawn
-                int random = Random.Range(0, spawnPrefabsHigh.Length);
-                GameObject targetObject = Instantiate(spawnPrefabsHigh[random], lastSpawnedLocation + new Vector3(spawnDistanceHigh,0,0),Quaternion.Euler(0,ySpawnRotation,0));
-                spawnedObjectsList.Add(targetObject);
+                if (isOnlyDummies)
+                {
+                    int random = Random.Range(0, spawnPrefabsHigh.Length);
+                    GameObject targetObject = Instantiate(spawnPrefabsHigh[random], lastSpawnedLocation + new Vector3(spawnDistanceHigh, 0, 0), Quaternion.Euler(0, ySpawnRotation, 0));
+                    spawnedObjectsList.Add(targetObject);
+                }
+                else if (isOnlyTargets)
+                {
+                    GameObject dummyObject = Instantiate(spawnPrefabsGround[0], lastSpawnedLocation + new Vector3(Random.Range(spawnDistanceGroundMin, spawnDistanceGroundMax), -0.05f, 0), Quaternion.Euler(0, ySpawnRotation, 0));
+                    spawnedObjectsList.Add(dummyObject);
+                }
+                distanceFromStart = Vector3.Distance(startPos.position, lastSpawnedLocation);
             }
             else
             {
-                //Low Spawn
-                GameObject dummyObject = Instantiate(spawnPrefabsGround[0], lastSpawnedLocation + new Vector3(Random.Range(spawnDistanceGroundMin, spawnDistanceGroundMax),-0.05f,0), Quaternion.Euler(0, ySpawnRotation, 0));
-                spawnedObjectsList.Add(dummyObject);
-            }
+                if (randomHighOrLow == 1)
+                {
+                    //High Spawn
+                    int random = Random.Range(0, spawnPrefabsHigh.Length);
+                    GameObject targetObject = Instantiate(spawnPrefabsHigh[random], lastSpawnedLocation + new Vector3(spawnDistanceHigh, 0, 0), Quaternion.Euler(0, ySpawnRotation, 0));
+                    spawnedObjectsList.Add(targetObject);
+                }
+                else
+                {
+                    //Low Spawn
+                    GameObject dummyObject = Instantiate(spawnPrefabsGround[0], lastSpawnedLocation + new Vector3(Random.Range(spawnDistanceGroundMin, spawnDistanceGroundMax), -0.05f, 0), Quaternion.Euler(0, ySpawnRotation, 0));
+                    spawnedObjectsList.Add(dummyObject);
+                }
 
-            distanceFromStart = Vector3.Distance(startPos.position, lastSpawnedLocation);
+                distanceFromStart = Vector3.Distance(startPos.position, lastSpawnedLocation);
+            }
+            
 
         }
         GameObject barrierObject = Instantiate(barrierPrefab, spawnBarrierLocation.position, Quaternion.Euler(0,yBarrierRotation,0));
-        spawnedObjectsList.Add(barrierObject);  
+        spawnedObjectsList.Add(barrierObject);
+        isFirstSpawn = false;
 
     }
 
