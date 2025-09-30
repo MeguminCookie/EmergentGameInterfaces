@@ -9,6 +9,9 @@ public class LanceController : MonoBehaviour
     public JoyconDemo joyconLeft;
     public JoyconDemo joyconRight;
 
+    public Transform hitParticleSpawnLocation;
+    public GameObject hitParticles;
+
     public Quaternion joyconRotation = quaternion.identity;
     public GameObject lanceObject;
     void Start()
@@ -26,6 +29,12 @@ public class LanceController : MonoBehaviour
     {
         joyconRotation= joyconRight.joycon.GetOrientation();
         lanceObject.transform.localRotation = joyconRotation;
+    }
+
+    public void SpawnParticles()
+    {
+       GameObject particle = Instantiate(hitParticles, hitParticleSpawnLocation.transform.position, hitParticleSpawnLocation.transform.rotation);
+        particle.SetActive(true);
     }
 
     
