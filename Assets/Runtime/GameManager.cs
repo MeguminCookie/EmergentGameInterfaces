@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     [Header("UI Stuff")]
     [SerializeField] private TextMeshProUGUI speedText;
+    public ParticleSystem speedLines;
 
     private float timeSpanned;
     public float horseSpeed = 2;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
     {
         RightTarget.OnTargetHit += AddScore;
         Dummy.OnTargetHit += AddScore;
+
     }
 
     private void OnDisable()
@@ -42,6 +44,17 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         speedText.text = string.Format("{0:#.00} kph",horseSpeed);
+        
+        if(horseSpeed < 15)
+        {
+            Camera.main.fieldOfView = 60 + horseSpeed * 1.5f;
+            speedLines.emissionRate = horseSpeed;
+        }
+        else
+        {
+            speedLines.emissionRate = horseSpeed * 2;
+            Camera.main.fieldOfView = 60 + 15 * 1.5f;
+        }
 
         timeSpanned += Time.deltaTime;
         if(timeSpanned > timeTillDifficultyRamp)
