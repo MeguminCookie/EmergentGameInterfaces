@@ -3,7 +3,9 @@ using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     [Header("End Management")]
     private float endTimer;
+    public GameObject ragdolParent;
     public GameObject endOfGameUI;
     public TextMeshProUGUI finalScoreText;
     public TextMeshProUGUI timeSurvivedText;
@@ -55,6 +58,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        endOfGameUI.SetActive(false);
         StartCoroutine(StartOfGame());
         scoreText.gameObject.SetActive(false); 
         speedText.gameObject.SetActive(false);
@@ -144,9 +148,24 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GameOver()
     {
+        ragdolParent.gameObject.SetActive(true);
+        ragdolParent.transform.position = Camera.main.transform.position;
+        ragdolParent.transform.rotation = Camera.main.transform.rotation;
+        Camera.main.transform.parent = ragdolParent.transform;
+        ragdolParent.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward *40 * horseSpeed , ForceMode.Impulse);
+
+
+        yield return new WaitForSeconds(1);
         endOfGameUI.SetActive(true);
         scoreText.gameObject.SetActive(false);
         speedText.gameObject.SetActive(false);
+        while(endOfGameUI.gameObject.GetComponent<CanvasScaler>().scaleFactor <1)
+        {
+            endOfGameUI.gameObject.GetComponent<CanvasScaler>().scaleFactor += Time.deltaTime;
+            yield return null;
+        }
+        
+        yield return new WaitForSeconds(0.5f);
         int scoring = 0;
         while(scoring < score)
         {
@@ -158,11 +177,29 @@ public class GameManager : MonoBehaviour
         float time = 0;
         while (time < totalTimeElapsed)
         {
-            scoring += Mathf.CeilToInt((totalTimeElapsed - time) * 0.2f);
-            yield return new WaitForSeconds(0.02f);
+            time += Mathf.Ceil((totalTimeElapsed - time) * 0.2f);
+            
+            yield return new WaitForSeconds(0.05f);
             timeSurvivedText.text = "TIME SPENT: " + string.Format("{00:#.00}", time); ;
 
         }
+       
+
+        float endTimer = 0;
+        int i = 0;
+        while(endTimer < 10)
+        {
+            endTimer += Time.deltaTime;
+            i=  10-(int)endTimer;
+            timeTillMainMenuText.text = "HEADING TO MAIN MENU IN: " + i;
+            yield return null;
+        }
+        if(i <= 0)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
+
+
 }
 
