@@ -29,6 +29,7 @@ public class Dummy : MonoBehaviour
             Debug.Log("Hit dummy");
             rightJoycon.joycon.SetRumble(1000, 1000, 1000, 200);
             OnTargetHit?.Invoke(100);
+            Camera.main.DOComplete();
             Camera.main.DOShakePosition(0.3f, 0.2f,20, 90, true);
             transform.DORotate(new Vector3(80,transform.rotation.y,transform.rotation.z), 0.15f, RotateMode.LocalAxisAdd);
             //Destroy(this.gameObject);
@@ -38,6 +39,7 @@ public class Dummy : MonoBehaviour
             Debug.Log("Collided with dummy");
             leftJoycon.joycon.SetRumble(1000, 1000, 1000, 200);
             Camera.main.DOShakePosition(0.3f, 0.8f, 20, 90, true);
+            Camera.main.DOComplete();
             other.GetComponentInParent<HorseControls>().SlowDown(slowDownAmount);
             transform.DORotate(new Vector3(80, transform.rotation.y, transform.rotation.z), 0.15f, RotateMode.LocalAxisAdd);
             //Destroy(this.gameObject);

@@ -26,6 +26,7 @@ public class WrongTarget : MonoBehaviour
                 Debug.Log("Hit Target");
                 other.GetComponentInParent<HorseControls>().SlowDown(3);
                 other.GetComponentInParent<LanceController>().SpawnParticles();
+                Camera.main.DOComplete();
                 Camera.main.DOShakePosition(0.2f, 0.5f, 20, 90, true);
                 StartCoroutine(Hit());
                 moving = true;

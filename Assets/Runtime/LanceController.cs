@@ -18,6 +18,11 @@ public class LanceController : MonoBehaviour
     {
         
     }
+    private void OnEnable()
+    {
+        joyconLeft.GetComponent<JoyconDemo>().joycon.Recenter();
+        joyconRight.GetComponent<JoyconDemo>().joycon.Recenter();
+    }
 
     // Update is called once per frame
     void Update()

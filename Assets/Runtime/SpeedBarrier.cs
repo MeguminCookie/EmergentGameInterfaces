@@ -34,7 +34,7 @@ public class SpeedBarrier : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene(0);
+                StartCoroutine(gameManager.GameOver());
                 //Game Over
             }
         }
@@ -74,6 +74,7 @@ public class SpeedBarrier : MonoBehaviour
                 rb.AddTorque(randomTorque, ForceMode.Impulse);
             }
         }
+        Camera.main.DOComplete();
         Camera.main.DOShakePosition(0.3f, 0.8f, 20, 90, true);
         yield return new WaitForSeconds(5);
         Destroy(this.gameObject);

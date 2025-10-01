@@ -99,7 +99,7 @@ public class HorseControls : MonoBehaviour
     private IEnumerator SlowingDown(float speed)
     {
         float speedGoal = currentSpeed - speed;
-        while (currentSpeed > speedGoal && isAccelerating == false)
+        while (currentSpeed > speedGoal && isAccelerating == false && currentSpeed > 1.5)
         {
             //Normalize the speed change with the current position of player ( if we don't do this, the player will teleport )
             float prevProgress = splineAnimate.NormalizedTime;
