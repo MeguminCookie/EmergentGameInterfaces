@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timeSurvivedText;
     public TextMeshProUGUI timeTillMainMenuText;
 
+    [Header("Sound Stuff")]
+    public AudioSource music;
+
     private bool hasStarted;
 
     private float totalTimeElapsed;
@@ -68,7 +71,17 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        speedText.text = string.Format("{0:#.00} kph", horseSpeed);
+        if (horseSpeed < 20) 
+        {
+            music.pitch = 0.9f + (horseSpeed / 100f);
+        }
+        else
+        {
+            music.pitch = 1.1f;
+        }
+
+
+            speedText.text = string.Format("{0:#.00} kph", horseSpeed);
 
         if (horseSpeed < 15)
         {

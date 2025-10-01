@@ -12,6 +12,7 @@ public class HorseControls : MonoBehaviour
     public float speedUpAmount;
     public float timeTillSpeedDown;
     public float accelerationRate;
+    public AudioSource horseGallopSound;
     private float timeSinceLastSpedUp;
 
 
@@ -36,6 +37,12 @@ public class HorseControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(currentSpeed < 20)
+        {
+            horseGallopSound.pitch = (currentSpeed/100)*5;
+        }
+
         HorseSpeed();
         gameManager.horseSpeed = currentSpeed;
         timeSinceLastSpedUp += Time.deltaTime;
