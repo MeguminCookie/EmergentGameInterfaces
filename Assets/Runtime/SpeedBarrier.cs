@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -73,6 +74,7 @@ public class SpeedBarrier : MonoBehaviour
                 rb.AddTorque(randomTorque, ForceMode.Impulse);
             }
         }
+        Camera.main.DOShakePosition(0.3f, 0.8f, 20, 90, true);
         yield return new WaitForSeconds(5);
         Destroy(this.gameObject);
     }

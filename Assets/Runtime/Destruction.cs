@@ -12,7 +12,7 @@ public class Destruction : MonoBehaviour
         GameObject destructible = Instantiate(destructedObject, spawnLocation.position, spawnLocation.rotation);
         foreach (Rigidbody rb in destructible.GetComponentsInChildren<Rigidbody>())
         {
-            Vector3 force = transform.forward * 4 + (new Vector3(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f)));
+            Vector3 force = -transform.forward * 4 + (new Vector3(Random.Range(-1, 0f), Random.Range(0, 1f), Random.Range(0, 1f)));
             rb.AddForce(force * 100);
         }
     }

@@ -26,6 +26,7 @@ public class WrongTarget : MonoBehaviour
                 Debug.Log("Hit Target");
                 other.GetComponentInParent<HorseControls>().SlowDown(3);
                 other.GetComponentInParent<LanceController>().SpawnParticles();
+                Camera.main.DOShakePosition(0.2f, 0.5f, 20, 90, true);
                 StartCoroutine(Hit());
                 moving = true;
             }
@@ -35,11 +36,11 @@ public class WrongTarget : MonoBehaviour
 
     private IEnumerator Hit()
     {
-        transform.DORotate(new Vector3(-40,transform.rotation.y,transform.rotation.z),0.25f, RotateMode.LocalAxisAdd);
+        transform.DORotate(new Vector3(40,transform.rotation.y,transform.rotation.z),0.25f, RotateMode.LocalAxisAdd);
         yield return new WaitForSeconds(0.28f);
-        transform.DORotate(new Vector3(65, transform.rotation.y, transform.rotation.z), 0.25f, RotateMode.LocalAxisAdd);
+        transform.DORotate(new Vector3(-65, transform.rotation.y, transform.rotation.z), 0.25f, RotateMode.LocalAxisAdd);
         yield return new WaitForSeconds(0.28f);
-        transform.DORotate(new Vector3(-25, transform.rotation.y, transform.rotation.z), 0.25f, RotateMode.LocalAxisAdd);
+        transform.DORotate(new Vector3(25, transform.rotation.y, transform.rotation.z), 0.25f, RotateMode.LocalAxisAdd);
 
 
     }

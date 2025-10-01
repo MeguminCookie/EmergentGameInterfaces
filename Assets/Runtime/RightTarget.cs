@@ -36,6 +36,7 @@ public class RightTarget : MonoBehaviour
             {
                 //Destroy actual object
                 destruct.DestoryedObject();
+                Camera.main.DOShakePosition(0.2f, 0.5f, 20, 90, true);
                 rightJoycon.joycon.SetRumble(2, 4, 10, 1);
                 Destroy(this.gameObject);
             }
@@ -43,8 +44,9 @@ public class RightTarget : MonoBehaviour
             {
                 //Play animation
                 isHit = true;
-                Vector3 rotation = new Vector3(-90, transform.rotation.y, transform.rotation.z);
+                Vector3 rotation = new Vector3(90, transform.rotation.y, transform.rotation.z);
                 rightJoycon.joycon.SetRumble(1000, 1000, 1000, 200);
+                Camera.main.DOShakePosition(0.2f, 0.2f, 20, 90, true);
                 transform.DORotate(rotation, 0.15f, RotateMode.LocalAxisAdd);
                
             }
