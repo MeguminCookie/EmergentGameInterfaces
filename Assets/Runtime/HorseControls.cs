@@ -22,6 +22,10 @@ public class HorseControls : MonoBehaviour
     private bool isAccelerating;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void OnEnable()
+    {
+        horseGallopSound.gameObject.SetActive(true);
+    }
     void Start()
     {
         splineAnimate = GetComponent<SplineAnimate>();
