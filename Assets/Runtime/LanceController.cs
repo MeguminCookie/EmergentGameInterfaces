@@ -16,12 +16,14 @@ public class LanceController : MonoBehaviour
     public GameObject lanceObject;
     void Start()
     {
-        
+      joyconLeft = GameObject.FindGameObjectWithTag("JoyconL").GetComponent<JoyconDemo>();
+        joyconRight = GameObject.FindGameObjectWithTag("JoyconR").GetComponent<JoyconDemo>();
+        joyconLeft.GetComponent<JoyconDemo>().joycon.Recenter();
+        joyconRight.GetComponent<JoyconDemo>().joycon.Recenter();
     }
     private void OnEnable()
     {
-        joyconLeft.GetComponent<JoyconDemo>().joycon.Recenter();
-        joyconRight.GetComponent<JoyconDemo>().joycon.Recenter();
+        
     }
 
     // Update is called once per frame

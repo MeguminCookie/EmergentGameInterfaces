@@ -8,11 +8,14 @@ TagManager:
   - Lance
   - GameManager
   - Horse
+  - Exit
+  - Start
+  - Tutorial
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - MenuBoards
   - Water
   - UI
   - 

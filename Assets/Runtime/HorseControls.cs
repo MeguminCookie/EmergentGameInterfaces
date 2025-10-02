@@ -26,6 +26,7 @@ public class HorseControls : MonoBehaviour
     {
         splineAnimate = GetComponent<SplineAnimate>();
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        joyconLeft = GameObject.FindGameObjectWithTag("JoyconL").GetComponent<JoyconDemo>();
         //Speed horse up till base speed
         currentSpeed = 0;
         splineAnimate.MaxSpeed = 0;
