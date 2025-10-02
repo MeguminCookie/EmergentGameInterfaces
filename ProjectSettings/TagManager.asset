@@ -11,6 +11,9 @@ TagManager:
   - Exit
   - Start
   - Tutorial
+  - JoyconL
+  - JoyconR
+  - Back
   layers:
   - Default
   - TransparentFX
