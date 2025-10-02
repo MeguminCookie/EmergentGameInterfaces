@@ -11,6 +11,7 @@ public class SpeedBarrier : MonoBehaviour
     public float launchForce;
     private GameManager gameManager;
     private float requiredSpeed;
+    public AudioSource hitSound;
     void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -30,6 +31,8 @@ public class SpeedBarrier : MonoBehaviour
         {
             if(other.GetComponentInParent<HorseControls>().currentSpeed >= requiredSpeed)
             {
+                hitSound.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+                hitSound.Play();
                 StartCoroutine(LaunchAndDestroy(other));
             }
             else

@@ -10,6 +10,8 @@ public class Target : MonoBehaviour
     [SerializeField] private GameObject wrongTarget;
     private List<GameObject> targetObjects = new List<GameObject>();
 
+    [SerializeField] private AudioSource hitSound;
+
     private int random;
     public static event Action<int> OnTargetHit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

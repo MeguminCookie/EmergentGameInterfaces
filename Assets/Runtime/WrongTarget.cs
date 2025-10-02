@@ -5,6 +5,7 @@ using DG.Tweening;
 public class WrongTarget : MonoBehaviour
 {
     public bool moving = false;
+    public AudioSource hitSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,6 +38,8 @@ public class WrongTarget : MonoBehaviour
 
     private IEnumerator Hit()
     {
+        hitSound.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+        hitSound.Play();
         transform.DORotate(new Vector3(40,transform.rotation.y,transform.rotation.z),0.25f, RotateMode.LocalAxisAdd);
         yield return new WaitForSeconds(0.28f);
         transform.DORotate(new Vector3(-65, transform.rotation.y, transform.rotation.z), 0.25f, RotateMode.LocalAxisAdd);

@@ -10,6 +10,7 @@ public class Dummy : MonoBehaviour
     public JoyconDemo leftJoycon;
     public JoyconDemo rightJoycon;
     public static event Action<int> OnTargetHit;
+    public AudioSource hitSound;
     void Start()
     {
         leftJoycon = GameObject.Find("Joycon_Left").GetComponent<JoyconDemo>();
@@ -26,6 +27,8 @@ public class Dummy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Lance"))
         {
+            hitSound.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            hitSound.Play();
             Debug.Log("Hit dummy");
             rightJoycon.joycon.SetRumble(1000, 1000, 1000, 200);
             OnTargetHit?.Invoke(100);
@@ -36,6 +39,8 @@ public class Dummy : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Horse"))
         {
+            hitSound.pitch = UnityEngine.Random.Range(0.6f, 0.8f);
+            hitSound.Play();
             Debug.Log("Collided with dummy");
             leftJoycon.joycon.SetRumble(1000, 1000, 1000, 200);
             Camera.main.DOShakePosition(0.3f, 0.8f, 20, 90, true);

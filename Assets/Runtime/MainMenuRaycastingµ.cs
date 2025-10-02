@@ -20,6 +20,8 @@ public class MainMenuRaycastingµ : MonoBehaviour
     public Color fadedOutColor;
     public Color fadedInColor;
     private bool isFading;
+    public AudioSource clickSound;
+    private bool isStarting = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,9 +46,10 @@ public class MainMenuRaycastingµ : MonoBehaviour
     void Update()
     {
 
-
-        RaycastingLance();
-
+        if (isStarting == false) 
+        {
+            RaycastingLance();
+        }
         radialCircle.fillAmount = chargeTime;
 
     }
@@ -114,6 +117,9 @@ public class MainMenuRaycastingµ : MonoBehaviour
 
     private IEnumerator StartGame()
     {
+        clickSound.pitch = Random.Range(0.9f, 1.1f);
+        clickSound.Play();
+        isStarting = true;
         if (isFading == false)
         {
             StartCoroutine(FadeIn());
@@ -123,6 +129,9 @@ public class MainMenuRaycastingµ : MonoBehaviour
     }
     private IEnumerator ExitGame()
     {
+        clickSound.pitch = Random.Range(0.9f, 1.1f);
+        clickSound.Play();
+        isStarting = true;
         if (isFading == false)
         {
             StartCoroutine(FadeIn());
@@ -132,12 +141,16 @@ public class MainMenuRaycastingµ : MonoBehaviour
     }
     private IEnumerator Tutorial()
     {
+        clickSound.pitch = Random.Range(0.9f, 1.1f);
+        clickSound.Play();
         player.transform.DORotate(new Vector3(110, 0, 0),1, RotateMode.LocalAxisAdd); 
         yield return new WaitForSeconds(1);
     }
 
     private IEnumerator Backl()
     {
+        clickSound.pitch = Random.Range(0.9f, 1.1f);
+        clickSound.Play();
         player.transform.DORotate(new Vector3(-110, 0, 0), 1, RotateMode.LocalAxisAdd);
         yield return new WaitForSeconds(1);
     }

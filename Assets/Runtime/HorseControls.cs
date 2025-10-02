@@ -31,7 +31,9 @@ public class HorseControls : MonoBehaviour
         currentSpeed = 0;
         splineAnimate.MaxSpeed = 0;
         StartCoroutine(StartOfGame());
-
+        horseGallopSound.pitch = 0;
+        StartCoroutine(WaitForHorseSound());
+        
 
     }
 
@@ -69,6 +71,13 @@ public class HorseControls : MonoBehaviour
         }
     }
     
+
+    private IEnumerator WaitForHorseSound()
+    {
+        horseGallopSound.gameObject.SetActive(false);
+        yield return new WaitForSeconds(9);
+        horseGallopSound.gameObject.SetActive(true);
+    }
     private IEnumerator Accelaration()
     {
        

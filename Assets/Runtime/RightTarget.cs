@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using JoyconLib;
+using Unity.Mathematics;
 
 public class RightTarget : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class RightTarget : MonoBehaviour
     public JoyconDemo rightJoycon;
     public bool isHit = false;
     public static event Action<int> OnTargetHit;
+    public AudioSource hitSound;
     
     void Start()
     {
@@ -43,6 +45,8 @@ public class RightTarget : MonoBehaviour
             }
             else
             {
+                hitSound.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+                hitSound.Play();
                 //Play animation
                 isHit = true;
                 Vector3 rotation = new Vector3(90, transform.rotation.y, transform.rotation.z);
