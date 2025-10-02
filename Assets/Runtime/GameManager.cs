@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     [Header("UI Stuff")]
     [SerializeField] private TextMeshProUGUI speedText;
     public ParticleSystem speedLines;
+    public RawImage fadingImage;
+    public Color fadedOutColor;
+    public Color fadedInColor;
 
     [Header("Start Management")]
     public float timeTillGameStarts;
@@ -36,6 +39,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI finalScoreText;
     public TextMeshProUGUI timeSurvivedText;
     public TextMeshProUGUI timeTillMainMenuText;
+
 
     [Header("Sound Stuff")]
     public AudioSource music;
@@ -61,6 +65,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        StartCoroutine(FadeOut());
         endOfGameUI.SetActive(false);
         StartCoroutine(StartOfGame());
         scoreText.gameObject.SetActive(false); 
@@ -103,6 +108,21 @@ public class GameManager : MonoBehaviour
         }
 
         
+    }
+    private IEnumerator FadeIn()
+    {
+        
+        fadingImage.DOColor(fadedInColor, 1f);
+        yield return null;
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(0);
+
+    }
+    private IEnumerator FadeOut()
+    {
+        fadingImage.DOColor(fadedOutColor, 1f);
+        yield return new WaitForSeconds(1);
+
     }
 
     public void AddScore(int scoreToAdd)
@@ -209,7 +229,7 @@ public class GameManager : MonoBehaviour
         }
         if(i <= 0)
         {
-            SceneManager.LoadScene(0);
+            StartCoroutine(FadeIn());
         }
     }
 
