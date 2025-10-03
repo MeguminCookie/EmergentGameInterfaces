@@ -16,7 +16,7 @@ public class SpeedBarrier : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         requiredSpeed = gameManager.speedRequirement;
-        speedText.SetText(requiredSpeed + "kph");
+        speedText.SetText(requiredSpeed + "kph\nREQUIRED");
     }
 
     // Update is called once per frame

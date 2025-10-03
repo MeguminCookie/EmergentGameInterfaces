@@ -12,14 +12,16 @@ public class HorseControls : MonoBehaviour
     public float speedUpAmount;
     public float timeTillSpeedDown;
     public float accelerationRate;
+    public Rigidbody ropeHoldPoint;
     public AudioSource horseGallopSound;
     private float timeSinceLastSpedUp;
 
 
     private SplineAnimate splineAnimate;
     private GameManager gameManager;
-
-    private bool isAccelerating;
+    
+    private bool isDeccelarating;
+    private bool isAccelarating;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnEnable()
@@ -65,9 +67,8 @@ public class HorseControls : MonoBehaviour
 
     private void HorseSpeed()
     {
-        if (joyconLeft.joycon.GetAccelerationWorldWithoutGravity().y > 3.5f && isAccelerating == false)
+        if (joyconLeft.joycon.GetAccelerationWorldWithoutGravity().y > 3.5f && isDeccelarating == false && isAccelarating ==false)
         {
-            isAccelerating = true;
             Debug.Log("Speed up");
             timeSinceLastSpedUp = 0;
             Debug.Log(joyconLeft.joycon.GetAccelerationWorldWithoutGravity().y);
@@ -84,9 +85,10 @@ public class HorseControls : MonoBehaviour
     }
     private IEnumerator Accelaration()
     {
-       
+        ropeHoldPoint.AddForce(new Vector3(0, 10, 0) , ForceMode.Impulse);
+       isAccelarating = true;
         float speedGoal = currentSpeed + speedUpAmount;
-        while (currentSpeed < speedGoal)
+        while (currentSpeed < speedGoal && isDeccelarating == false)
         {
             //Normalize the speed change with the current position of player ( if we don't do this, the player will teleport )
             float prevProgress = splineAnimate.NormalizedTime;
@@ -96,8 +98,9 @@ public class HorseControls : MonoBehaviour
             yield return null;
         }
         Debug.Log("Current Speed: " + currentSpeed);
-        isAccelerating = false;
+       
         yield return null;
+        isAccelarating = false;
     }
 
     private IEnumerator StartOfGame()
@@ -119,8 +122,9 @@ public class HorseControls : MonoBehaviour
 
     private IEnumerator SlowingDown(float speed)
     {
+        isDeccelarating = true;
         float speedGoal = currentSpeed - speed;
-        while (currentSpeed > speedGoal && isAccelerating == false && currentSpeed > 1.5)
+        while (currentSpeed > speedGoal  && currentSpeed > 1.5)
         {
             //Normalize the speed change with the current position of player ( if we don't do this, the player will teleport )
             float prevProgress = splineAnimate.NormalizedTime;
@@ -131,6 +135,7 @@ public class HorseControls : MonoBehaviour
         }
         Debug.Log("Current Speed: " + currentSpeed);
         yield return null;
+        isDeccelarating = false;
     }
    
 
